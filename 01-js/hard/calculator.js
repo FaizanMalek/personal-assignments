@@ -15,7 +15,72 @@
 
   Once you've implemented the logic, test your code by running
 */
+const math = require("mathjs");
+class Calculator {
 
-class Calculator {}
+  constructor(){
+    this.result=0;
+  }
+  
+
+  add(number){
+    this.result+=number;
+  }
+
+  subtract(number){
+    this.result-=number;
+  }
+
+  multiply(number){
+    this.result*=number;
+  }
+
+  divide(number){
+    if(number!=0){this.result/=number;}
+    else throw new Error ("cannot divide by zero");
+    
+  }
+
+  clear(){
+    this.result=0;
+  }
+
+  getResult(){
+    return this.result;
+  }
+
+  calculate(string){
+    try{
+      let cleanString=string.trim();
+      if(/[^0-9+\-*/().\s]/.test(cleanString)){
+        throw new error ("invalid characters inside the expression");
+      }
+      if (/\/\s*0(?!\d)/.test(cleanString)) { // Matches division by 0, but not 0.1, 0.2, etc.
+        throw new Error("Division by zero is not allowed");
+    }
+
+    // Evaluate the expression
+    this.result += math.evaluate(cleanString);
+    }catch(error){
+        throw new error("invalid input")
+    }
+  }
+
+//   calculate(string){
+//     try {
+
+//     let cleanString=string.trim();
+
+//     if(/[^0-9+\-*/().\s]/.test(cleanString)){
+//       throw new Error("The expression contains invalid characters");
+//     }
+
+//     this.result= math.evaluate(cleanString);
+//   } catch (error){
+//     throw new Error("invalid expression");
+//   }
+  
+// }
+}
 
 module.exports = Calculator;

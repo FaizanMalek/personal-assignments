@@ -1,0 +1,23 @@
+# Dependency directories
+node_modules/
+*.json
+# Build directories
+dist/
+build/
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor-specific files
+.vscode/
+.idea/
+
+# Test coverage reports
+coverage/
