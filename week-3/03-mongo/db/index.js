@@ -6,28 +6,30 @@ mongoose.connect('mongodb+srv://collapse:faizanmalik@cluster0.87xwmol.mongodb.ne
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
-    // Schema definition here
     username: String,
-    password: String,     
-});
+    password: String
+})
 
 const UserSchema = new mongoose.Schema({
-    // Schema definition here
-    username: String,
-    password: String,
-    purchasedCourses:[{
+    username : String,
+    password : String,
+    purchasedCourses : [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Course'
+        ref :'Course'
     }]
-});
+})
 
 const CourseSchema = new mongoose.Schema({
-    // Schema definition here
     title: String,
     description: String,
-    price: Number,
     imageLink: String,
-});
+    price : Number
+})
+
+
+
+
+ 
 
 const Admin = mongoose.model('Admin', AdminSchema);
 const User = mongoose.model('User', UserSchema);

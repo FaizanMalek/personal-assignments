@@ -7,53 +7,67 @@ const { default: mongoose } = require("mongoose");
 // User Routes
 router.post('/signup', async (req, res) => {
     // Implement user signup logic
-    const{username,password} = req.headers;
+    const {username, password} = req.body;
+
     await User.create({
-        username:username,
-        password:password,
+        username,
+        password
     })
-    res.status(200).json({
-        msg: 'user created successfully',
-    });
+    res.json({
+        msg : "User created successfully"
+    })
 });
 
 router.get('/courses', async (req, res) => {
     // Implement listing all courses logic
-    const response = await Course.find({});
+    const courses = await Course.find({});
     res.json({
-        courses: response,
+        courses : courses
     })
 });
 
 router.post('/courses/:courseId', userMiddleware, async (req, res) => {
     // Implement course purchase logic
     const courseId = req.params.courseId;
-    const username = req.headers.username;
 
-    await User.UpdateOne({
+    const username = req.headers.username;
+    const password = req.headers.password;
+    try{
+    await User.updateOne({
         username,
-        "$push": {purchasedCourses: courseId},
-    });
-    res.status(200).json({
-        msg: "course purchased",
+        password
+    },{
+         "$push" : {purchasedCourses : courseId
+        }
+    })} catch(e){
+        console.log(e);
+        
+    }
+
+    res.json({
+        msg: "Purchase complete!"
     })
 
 });
 
 router.get('/purchasedCourses', userMiddleware, async (req, res) => {
     // Implement fetching purchased courses logic
-    const user = User.findOne({
-        username: req.headers.username,
-    })
+    const user = await User.findOne({
+        username: req.headers.username
+    });
+
+    console.log(user.purchasedCourses);
 
     const courses = await Course.find({
-        _id: {
+        _id : {
             "$in" : user.purchasedCourses
         }
     })
+
     res.json({
-        courses: courses,
+        purchasedCourses : courses
     })
+    
 });
 
 module.exports = router
